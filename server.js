@@ -72,6 +72,32 @@ app.post('/register', async (req,res) => {
     }
 })
 
+const Loan = Parse.Object.extend('Loan')
+
+app.post('/loan', async (req,res) => {
+    const { barrow_ammount, load_duration, interest_rate, pitch_deck } = req.body;
+    const loan = new Loan();
+
+    loan.set("BorrowAmount", barrow_ammount);
+    loan.set("LoanDuration", load_duration);
+    loan.set("InterestRate", interest_rate);
+    loan.set("PitchDeck", pitch_deck);
+
+    try{
+        await loan.save();
+        res.status(200).json(loan);
+    }
+    catch(err){
+        res.status(400).json(err);
+    }
+})
+
+
+
+
+
+
+
 
 app.listen(1337, () => {
     console.log('Server is Listening to http://localhost:1337');
